@@ -13,11 +13,9 @@
         }
 
         body {
-            /* تدرج لوني ساحر من البنفسجي العميق إلى الأزرق السماوي */
-            background: linear-gradient(135deg, #0F0C29 0%, #302B63 50%, #24243E 100%);
-            min-height: 100vh;
+            background-color: #FAFAFA; /* خلفية بيضاء ناعمة */
             padding: 40px 20px;
-            color: #ffffff; /* تغيير اللون العام للنص للأبيض */
+            color: #333;
         }
 
         .dashboard-container {
@@ -28,10 +26,8 @@
         h1 {
             text-align: center;
             margin-bottom: 30px;
-            color: #ffffff;
-            font-size: 2.5rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            letter-spacing: 1px;
+            color: #6C63FF; /* بنفسجي ناعم للعنوان */
+            font-size: 2rem;
         }
 
         .controls {
@@ -43,31 +39,17 @@
         }
 
         .controls input, .controls select {
-            padding: 12px 18px;
-            border-radius: 12px;
-            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
             font-size: 16px;
             width: 250px;
             outline: none;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .controls input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            background: #fff;
         }
 
         .controls input:focus, .controls select:focus {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: #8A2BE2;
-            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
-        }
-
-        .controls select option {
-            color: #333;
-            background: #fff;
+            border-color: #6C63FF; /* بنفسجي عند التركيز */
         }
 
         .users-grid {
@@ -77,34 +59,40 @@
         }
 
         .user-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* ظل خفيف جدًا */
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ffffff;
+            overflow: hidden; /* لكي يلتزم رأس البطاقة بالحواف */
+            transition: transform 0.2s;
         }
 
         .user-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(138, 43, 226, 0.3);
-            border-color: rgba(138, 43, 226, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.15);
         }
 
-        .user-card h3 { 
-            margin-bottom: 5px; 
-            color: #ffffff;
-            font-size: 1.3rem;
+        /* رأس البطاقة الجديد */
+        .card-header {
+            background: #6C63FF; /* بنفسجي ناعم */
+            padding: 15px 20px;
+            color: white;
         }
 
-        .user-card .email { 
-            font-size: 14px; 
-            color: rgba(255, 255, 255, 0.7); 
-            margin-bottom: 15px; 
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-body .email {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
         }
 
         .user-stats {
@@ -112,89 +100,69 @@
             justify-content: space-around;
             margin: 15px 0;
             padding: 10px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
         }
 
         .user-stats div { text-align: center; }
-        
-        .user-stats span { 
-            display: block; 
-            font-weight: bold; 
-            color: #8A2BE2; /* اللون البنفسجي المشرق للأرقام */
-        }
-        
-        .user-stats small { 
-            font-size: 12px; 
-            color: rgba(255, 255, 255, 0.6); 
-        }
+        .user-stats span { display: block; font-weight: bold; color: #6C63FF; }
+        .user-stats small { font-size: 12px; color: #777; }
 
         .details-btn {
-            background: linear-gradient(135deg, #8A2BE2, #4B0082);
+            background-color: #5b5fee;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 12px;
+            padding: 6px 16px;
+            border-radius: 6px;
             cursor: pointer;
             align-self: flex-end;
             margin-top: 10px;
-            transition: 0.3s;
-            font-weight: bold;
+            transition: 0.2s;
         }
 
-        .details-btn:hover { 
-            transform: scale(1.05); 
-            box-shadow: 0 0 20px rgba(138, 43, 226, 0.6);
-        }
+        .details-btn:hover { background-color: #4a4ed8; }
 
         .loading, .error {
             grid-column: 1 / -1;
             text-align: center;
             font-size: 18px;
             padding: 40px;
-            color: rgba(255, 255, 255, 0.8);
+            color: #777;
         }
-
-        .error { 
-            color: #ff6b6b; 
-            font-weight: bold; 
-        }
+        .error { color: #e74c3c; font-weight: bold; }
 
         .modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.5);
             display: flex; justify-content: center; align-items: center;
             z-index: 100;
         }
         .modal.hidden { display: none; }
 
         .modal-content {
-            background: #1A1A2E;
+            background: white;
             padding: 30px;
-            border-radius: 16px;
+            border-radius: 12px;
             max-width: 500px;
             width: 90%;
             position: relative;
-            border: 1px solid rgba(138, 43, 226, 0.3);
-            color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .close-btn {
             position: absolute; top: 15px; right: 20px;
-            font-size: 28px; cursor: pointer; color: rgba(255,255,255,0.5);
-            transition: 0.3s;
+            font-size: 28px; cursor: pointer; color: #aaa;
         }
-        .close-btn:hover { color: #ffffff; transform: rotate(90deg); }
+        .close-btn:hover { color: #333; }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <h1>✨ User Analytics Dashboard</h1>
+        <h1>📊 User Analytics</h1>
         
         <div class="controls">
-            <input type="text" id="searchInput" placeholder="Search users by name or email...">
+            <input type="text" id="searchInput" placeholder="Search users...">
             <select id="sortSelect">
                 <option value="name">Sort by: Name (A-Z)</option>
                 <option value="posts">Sort by: Most Posts</option>
