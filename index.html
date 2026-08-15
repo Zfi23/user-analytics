@@ -13,9 +13,9 @@
         }
 
         body {
-            background-color: #FAFAFA;
+            background-color: #FDF8F5;
             padding: 40px 20px;
-            color: #333;
+            color: #2C3E50;
         }
 
         .dashboard-container {
@@ -26,8 +26,9 @@
         h1 {
             text-align: center;
             margin-bottom: 30px;
-            color: #6C63FF; 
-            font-size: 2rem;
+            color: #5B4AFF; 
+            font-size: 2.2rem;
+            font-weight: 600;
         }
 
         .controls {
@@ -38,88 +39,115 @@
             flex-wrap: wrap;
         }
 
-        .controls input, .controls select {
-            padding: 10px 15px;
-            border-radius: 8px;
+        .controls input {
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: none;
+            font-size: 16px;
+            width: 280px;
+            outline: none;
+            background: rgba(91, 74, 255, 0.15); 
+            backdrop-filter: blur(6px);
+            color: #333;
+            box-shadow: 0 4px 15px rgba(91, 74, 255, 0.1);
+        }
+        .controls input::placeholder { color: #5B4AFF; opacity: 0.7; }
+        .controls input:focus {
+            background: rgba(91, 74, 255, 0.25);
+            box-shadow: 0 4px 20px rgba(91, 74, 255, 0.2);
+        }
+        
+        .controls select {
+            padding: 12px 20px;
+            border-radius: 30px;
             border: 1px solid #ddd;
             font-size: 16px;
-            width: 250px;
+            width: 220px;
             outline: none;
             background: #fff;
+            cursor: pointer;
         }
-
-        .controls input:focus, .controls select:focus {
-            border-color: #6C63FF; 
-        }
-
+        
         .users-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            gap: 25px; 
         }
 
         .user-card {
-            background: #FFFFFF;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(91, 74, 255, 0.15); 
             display: flex;
             flex-direction: column;
-            overflow: hidden; 
-            transition: transform 0.2s;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .user-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(91, 74, 255, 0.25);
         }
         
         .card-header {
-            background: #6C63FF; 
-            padding: 15px 20px;
+            background: #8A7EFF; 
+            padding: 18px 20px;
             color: white;
         }
-
         .card-header h3 {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .card-body {
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
-
         .card-body .email {
             font-size: 14px;
-            color: #666;
+            color: #5e5e5e;
             margin-bottom: 15px;
         }
-
+        
         .user-stats {
             display: flex;
             justify-content: space-around;
-            margin: 15px 0;
-            padding: 10px 0;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
+            margin: 12px 0 18px 0;
+            padding: 12px 0;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
         }
-
         .user-stats div { text-align: center; }
-        .user-stats span { display: block; font-weight: bold; color: #6C63FF; }
-        .user-stats small { font-size: 12px; color: #777; }
+        .user-stats span {
+            display: block;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #5B4AFF;
+        }
+        .user-stats small {
+            font-size: 12px;
+            color: #777;
+        }
 
         .details-btn {
-            background-color: #5b5fee;
+            background-color: #5B4AFF;
             color: white;
             border: none;
-            padding: 6px 16px;
-            border-radius: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
             cursor: pointer;
             align-self: flex-end;
-            margin-top: 10px;
-            transition: 0.2s;
+            margin-top: auto; 
+            transition: background 0.2s, transform 0.2s;
         }
-
-        .details-btn:hover { background-color: #4a4ed8; }
+        .details-btn:hover {
+            background-color: #4436cc;
+            transform: scale(1.02);
+        }
 
         .loading, .error {
             grid-column: 1 / -1;
@@ -129,12 +157,13 @@
             color: #777;
         }
         .error { color: #e74c3c; font-weight: bold; }
-
+        
         .modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5);
-            display: flex; justify-content: center; align-items: center;
+            display: flex;
+            justify-content: center; align-items: center;
             z-index: 100;
         }
         .modal.hidden { display: none; }
@@ -142,11 +171,11 @@
         .modal-content {
             background: white;
             padding: 30px;
-            border-radius: 12px;
+            border-radius: 16px;
             max-width: 500px;
             width: 90%;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
 
         .close-btn {
@@ -161,11 +190,11 @@
         <h1> User Analytics</h1>
         
         <div class="controls">
-            <input type="text" id="searchInput" placeholder="Search users...">
+            <input type="text" id="searchInput" placeholder=" Search users ...">
             <select id="sortSelect">
-                <option value="name">Sort by: Name (A-Z)</option>
-                <option value="posts">Sort by: Most Posts</option>
-                <option value="comments">Sort by: Most Comments</option>
+                <option value="name">Sort: Name A-Z</option>
+                <option value="posts">Sort: Most Posts</option>
+                <option value="comments">Sort: Most Comments</option>
             </select>
         </div>
 
