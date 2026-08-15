@@ -61,8 +61,7 @@ async function loadDashboard() {
 
 function renderUsers(users) {
     const container = document.getElementById('usersContainer');
-    container.innerHTML = '';
-
+    container.innerHTML = ''
     if (users.length === 0) {
         container.innerHTML = `
             <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #7f8c8d; font-size: 18px;">
@@ -147,7 +146,7 @@ function showDetails(user) {
         <p><strong>Company:</strong> ${user.company ? user.company.name : 'N/A'}</p>
         <p><strong>Address:</strong> ${user.address ? user.address.city : 'N/A'}</p>
         <hr>
-        <p><strong> Posts:</strong> ${user.postsCount}</p>
+        <p><strong Posts:</strong> ${user.postsCount}</p>
         <p><strong> Comments:</strong> ${user.commentsCount}</p>
     `;
     document.getElementById('userDetailsModal').classList.remove('hidden');
