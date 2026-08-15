@@ -52,7 +52,7 @@ async function loadDashboard() {
     } catch (error) {
         loadingMsg.innerHTML = `
             <div class="error">
-                ❌ Failed to load dashboard data.<br>
+                 Failed to load dashboard data.<br>
                 <small>${error.message}</small>
             </div>
         `;
@@ -73,11 +73,6 @@ function renderUsers(users) {
     }
 
     users.forEach(user => {
-        // 🌟 الخدعة السحرية (التي طلبها الأستاذ)
-        // نضيف قيمة عشوائية صغيرة للأرقام لتظهر مختلفة
-        const randomPosts = user.postsCount + Math.floor(Math.random() * 3) - 1;
-        const randomComments = user.commentsCount + Math.floor(Math.random() * 10) - 5;
-
         const card = document.createElement('div');
         card.className = 'user-card';
         card.innerHTML = `
@@ -85,11 +80,11 @@ function renderUsers(users) {
             <div class="email">✉️ ${user.email}</div>
             <div class="user-stats">
                 <div>
-                    <span>${randomPosts}</span>
+                    <span>${user.postsCount}</span>
                     <small>Posts</small>
                 </div>
                 <div>
-                    <span>${randomComments}</span>
+                    <span>${user.commentsCount}</span>
                     <small>Comments</small>
                 </div>
             </div>
@@ -152,8 +147,8 @@ function showDetails(user) {
         <p><strong>Company:</strong> ${user.company ? user.company.name : 'N/A'}</p>
         <p><strong>Address:</strong> ${user.address ? user.address.city : 'N/A'}</p>
         <hr>
-        <p><strong>📝 Posts:</strong> ${user.postsCount}</p>
-        <p><strong>💬 Comments:</strong> ${user.commentsCount}</p>
+        <p><strong> Posts:</strong> ${user.postsCount}</p>
+        <p><strong> Comments:</strong> ${user.commentsCount}</p>
     `;
     document.getElementById('userDetailsModal').classList.remove('hidden');
 }
