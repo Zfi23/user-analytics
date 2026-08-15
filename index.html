@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #FAFAFA; /* خلفية بيضاء ناعمة */
+            background-color: #FAFAFA;
             padding: 40px 20px;
             color: #333;
         }
@@ -26,7 +26,7 @@
         h1 {
             text-align: center;
             margin-bottom: 30px;
-            color: #6C63FF; /* بنفسجي ناعم للعنوان */
+            color: #6C63FF; 
             font-size: 2rem;
         }
 
@@ -49,7 +49,7 @@
         }
 
         .controls input:focus, .controls select:focus {
-            border-color: #6C63FF; /* بنفسجي عند التركيز */
+            border-color: #6C63FF; 
         }
 
         .users-grid {
@@ -61,10 +61,10 @@
         .user-card {
             background: #FFFFFF;
             border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* ظل خفيف جدًا */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* لكي يلتزم رأس البطاقة بالحواف */
+            overflow: hidden; 
             transition: transform 0.2s;
         }
 
@@ -72,10 +72,9 @@
             transform: translateY(-3px);
             box-shadow: 0 4px 15px rgba(108, 99, 255, 0.15);
         }
-
-        /* رأس البطاقة الجديد */
+        
         .card-header {
-            background: #6C63FF; /* بنفسجي ناعم */
+            background: #6C63FF; 
             padding: 15px 20px;
             color: white;
         }
@@ -159,7 +158,7 @@
 </head>
 <body>
     <div class="dashboard-container">
-        <h1>📊 User Analytics</h1>
+        <h1> User Analytics</h1>
         
         <div class="controls">
             <input type="text" id="searchInput" placeholder="Search users...">
@@ -171,7 +170,7 @@
         </div>
 
         <div id="usersContainer" class="users-grid">
-            <div id="loadingMessage" class="loading">⏳ Loading dashboard data...</div>
+            <div id="loadingMessage" class="loading"> Loading dashboard data...</div>
         </div>
         
         <div id="userDetailsModal" class="modal hidden">
