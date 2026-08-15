@@ -18,8 +18,8 @@ async function getComments() {
     return await response.json();
 }
 
-let allUsersData = []; // البيانات الكاملة القادمة من الـ API
-let currentDisplayData = []; // البيانات التي ستعرض حالياً (تتغير بالبحث والترتيب)
+let allUsersData = []; 
+let currentDisplayData = []; 
 
 async function loadDashboard() {
     const usersContainer = document.getElementById('usersContainer');
@@ -34,9 +34,13 @@ async function loadDashboard() {
 
         loadingMsg.style.display = 'none';
 
+        // ✅ التعديل الصحيح هنا:
         const userStats = users.map(user => {
+            // 1. حساب البوستات: نبحث عن كل بوست يملك userId يساوي user.id
             const userPosts = posts.filter(post => post.userId === user.id);
             const postsCount = userPosts.length;
+
+            // 2. حساب التعليقات: نأخذ أرقام البوستات، ثم نبحث عن التعليقات التي تملك هذه الأرقام
             const postIds = userPosts.map(post => post.id);
             const userComments = comments.filter(comment => postIds.includes(comment.postId));
             const commentsCount = userComments.length;
@@ -45,8 +49,7 @@ async function loadDashboard() {
         });
 
         allUsersData = userStats;
-        currentDisplayData = [...allUsersData]; // نبدأ بعرض كل البيانات
-
+        currentDisplayData = [...allUsersData];
         renderUsers(currentDisplayData);
         setupListeners();
 
@@ -63,6 +66,15 @@ async function loadDashboard() {
 function renderUsers(users) {
     const container = document.getElementById('usersContainer');
     container.innerHTML = '';
+
+    if (users.length === 0) {
+        container.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #7f8c8d; font-size: 18px;">
+                🔍 No users found. Try a different search term.
+            </div>
+        `;
+        return;
+    }
 
     users.forEach(user => {
         const card = document.createElement('div');
@@ -89,32 +101,22 @@ function renderUsers(users) {
 }
 
 function setupListeners() {
-    // 1. البحث
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', () => {
         const searchTerm = searchInput.value.toLowerCase().trim();
-        
-        // 1. تصفية البيانات
         const filtered = allUsersData.filter(user => 
             user.name.toLowerCase().includes(searchTerm) || 
             user.email.toLowerCase().includes(searchTerm)
         );
-        
-        // 2. تحديث البيانات الحالية
         currentDisplayData = filtered;
-        
-        // 3. تطبيق الترتيب المختار حالياً عليها ثم عرضها
         applyCurrentSortAndRender();
     });
 
-    // 2. الترتيب
     const sortSelect = document.getElementById('sortSelect');
     sortSelect.addEventListener('change', () => {
-        // فقط نطبق الترتيب على البيانات الحالية ونعرضها
         applyCurrentSortAndRender();
     });
 
-    // 3. تفاصيل المستخدم
     const container = document.getElementById('usersContainer');
     container.addEventListener('click', (event) => {
         const btn = event.target.closest('.details-btn');
@@ -126,7 +128,6 @@ function setupListeners() {
     });
 }
 
-// دالة مساعدة: تقوم بترتيب currentDisplayData بناءً على الاختيار الحالي
 function applyCurrentSortAndRender() {
     const sortBy = document.getElementById('sortSelect').value;
     let sorted = [...currentDisplayData];
@@ -138,7 +139,6 @@ function applyCurrentSortAndRender() {
     } else if (sortBy === 'comments') {
         sorted.sort((a, b) => b.commentsCount - a.commentsCount);
     }
-    
     renderUsers(sorted);
 }
 
