@@ -1,104 +1,164 @@
-const API_BASE = "https://jsonplaceholder.typicode.com";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Analytics Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-async function getUsers() {
-    const response = await fetch(`${API_BASE}/users`);
-    if (!response.ok) throw new Error("Failed to fetch users");
-    return await response.json();
-}
+        body {
+            background-color: #f4f7f6;
+            padding: 40px 20px;
+            color: #333;
+        }
 
-async function getPosts() {
-    const response = await fetch(`${API_BASE}/posts`);
-    if (!response.ok) throw new Error("Failed to fetch posts");
-    return await response.json();
-}
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-async function getComments() {
-    const response = await fetch(`${API_BASE}/comments`);
-    if (!response.ok) throw new Error("Failed to fetch comments");
-    return await response.json();
-}
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
 
-// ----------------------------------------------
-// 3. تحميل لوحة المعلومات باستخدام Promise.all
-// ----------------------------------------------
-async function loadDashboard() {
-    const usersContainer = document.getElementById('usersContainer');
-    const loadingMsg = document.getElementById('loadingMessage');
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
 
-    try {
-        // (1) جلب البيانات الثلاثة في وقت واحد
-        const [users, posts, comments] = await Promise.all([
-            getUsers(),
-            getPosts(),
-            getComments()
-        ]);
+        .controls input, .controls select {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            width: 250px;
+            outline: none;
+        }
 
-        // (2) اختفاء رسالة التحميل
-        loadingMsg.style.display = 'none';
+        .controls input:focus, .controls select:focus {
+            border-color: #3498db;
+        }
 
-        // (3) بدء عملية الحساب
-        const userStats = users.map(user => {
-            const userPosts = posts.filter(post => post.userId === user.id);
-            const postsCount = userPosts.length;
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
 
-            const postIds = userPosts.map(post => post.id);
-            const userComments = comments.filter(comment => postIds.includes(comment.postId));
-            const commentsCount = userComments.length;
+        .user-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
 
-            return {
-                ...user,
-                postsCount: postsCount,
-                commentsCount: commentsCount
-            };
-        });
+        .user-card:hover {
+            transform: translateY(-5px);
+        }
 
-        // (4) عرض البطاقات (هذا هو الجزء المفقود الذي سنضيفه الآن)
-        renderUsers(userStats);
+        .user-card h3 { margin-bottom: 5px; color: #2c3e50; }
+        .user-card .email { font-size: 14px; color: #7f8c8d; margin-bottom: 15px; }
 
-    } catch (error) {
-        loadingMsg.innerHTML = `
-            <div class="error">
-                ❌ Failed to load dashboard data.<br>
-                <small>${error.message}</small>
-            </div>
-        `;
-    }
-}
+        .user-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+            padding: 10px 0;
+            border-top: 1px solid #ecf0f1;
+            border-bottom: 1px solid #ecf0f1;
+        }
 
-// ----------------------------------------------
-// 4. دالة رسم البطاقات (تمت إضافتها)
-// ----------------------------------------------
-function renderUsers(users) {
-    const container = document.getElementById('usersContainer');
-    container.innerHTML = ''; // تنظيف الحاوية
+        .user-stats div { text-align: center; }
+        .user-stats span { display: block; font-weight: bold; color: #3498db; }
+        .user-stats small { font-size: 12px; color: #7f8c8d; }
 
-    users.forEach(user => {
-        const card = document.createElement('div');
-        card.className = 'user-card';
+        .details-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            align-self: flex-end;
+            margin-top: 10px;
+        }
+
+        .details-btn:hover { background-color: #2980b9; }
+
+        .loading, .error {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 18px;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+        .error { color: #e74c3c; font-weight: bold; }
+
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute; top: 15px; right: 20px;
+            font-size: 28px; cursor: pointer; color: #aaa;
+        }
+        .close-btn:hover { color: #333; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>📊 User Analytics Dashboard</h1>
         
-        card.innerHTML = `
-            <h3>${user.name}</h3>
-            <div class="email">✉️ ${user.email}</div>
-            <div class="user-stats">
-                <div>
-                    <span>${user.postsCount}</span>
-                    <small>Posts</small>
-                </div>
-                <div>
-                    <span>${user.commentsCount}</span>
-                    <small>Comments</small>
-                </div>
+        <div class="controls">
+            <input type="text" id="searchInput" placeholder="Search users by name or email...">
+            <select id="sortSelect">
+                <option value="name">Sort by: Name (A-Z)</option>
+                <option value="posts">Sort by: Most Posts</option>
+                <option value="comments">Sort by: Most Comments</option>
+            </select>
+        </div>
+
+        <div id="usersContainer" class="users-grid">
+            <div id="loadingMessage" class="loading">⏳ Loading dashboard data...</div>
+        </div>
+        
+        <div id="userDetailsModal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeDetails()">&times;</span>
+                <h2 id="modalName">--</h2>
+                <div id="modalBody">--</div>
             </div>
-            <button class="details-btn" data-id="${user.id}">
-                View Details
-            </button>
-        `;
+        </div>
+    </div>
 
-        container.appendChild(card);
-    });
-}
-
-// ----------------------------------------------
-// 5. تشغيل التطبيق
-// ----------------------------------------------
-loadDashboard();
+    <script src="script.js"></script>
+</body>
+</html>
