@@ -17,6 +17,7 @@ async function getComments() {
     if (!response.ok) throw new Error("Failed to fetch comments");
     return await response.json();
 }
+
 // ----------------------------------------------
 // 3. تحميل لوحة المعلومات باستخدام Promise.all
 // ----------------------------------------------
@@ -35,21 +36,15 @@ async function loadDashboard() {
         // (2) اختفاء رسالة التحميل
         loadingMsg.style.display = 'none';
 
-        // (3) بدء عملية الحساب وعرض البطاقات (سنكتبها في الخطوة التالية)
-        // حساب عدد المقالات والتعليقات لكل مستخدم (سنقوم بها الآن)
+        // (3) بدء عملية الحساب
         const userStats = users.map(user => {
-            // عدد المقالات: نبحث في المصفوفة posts عن كل مقالة userId يساوي user.id
             const userPosts = posts.filter(post => post.userId === user.id);
             const postsCount = userPosts.length;
 
-            // عدد التعليقات: (أصعب قليلاً)
-            // 1. نحتاج أولاً للحصول على أرقام (IDs) المقالات التي كتبها هذا المستخدم
             const postIds = userPosts.map(post => post.id);
-            // 2. نبحث في التعليقات عن كل تعليق postId موجود ضمن قائمة postIds
             const userComments = comments.filter(comment => postIds.includes(comment.postId));
             const commentsCount = userComments.length;
 
-            // إرجاع كائن (Object) يحتوي على بيانات المستخدم + الإحصائيات
             return {
                 ...user,
                 postsCount: postsCount,
@@ -57,12 +52,10 @@ async function loadDashboard() {
             };
         });
 
-        // عرض النتيجة في الـ Console للتأكد (سنقوم بعرضها في الشاشة بالخطوة التالية)
-        console.log("البيانات جاهزة:", userStats);
-        // renderUsers(userStats); // سنقوم بتفعيل هذا السطر في الخطوة القادمة
+        // (4) عرض البطاقات (هذا هو الجزء المفقود الذي سنضيفه الآن)
+        renderUsers(userStats);
 
     } catch (error) {
-        // إذا حدث خطأ
         loadingMsg.innerHTML = `
             <div class="error">
                 ❌ Failed to load dashboard data.<br>
@@ -73,6 +66,39 @@ async function loadDashboard() {
 }
 
 // ----------------------------------------------
-// 4. تشغيل التطبيق
+// 4. دالة رسم البطاقات (تمت إضافتها)
+// ----------------------------------------------
+function renderUsers(users) {
+    const container = document.getElementById('usersContainer');
+    container.innerHTML = ''; // تنظيف الحاوية
+
+    users.forEach(user => {
+        const card = document.createElement('div');
+        card.className = 'user-card';
+        
+        card.innerHTML = `
+            <h3>${user.name}</h3>
+            <div class="email">✉️ ${user.email}</div>
+            <div class="user-stats">
+                <div>
+                    <span>${user.postsCount}</span>
+                    <small>Posts</small>
+                </div>
+                <div>
+                    <span>${user.commentsCount}</span>
+                    <small>Comments</small>
+                </div>
+            </div>
+            <button class="details-btn" data-id="${user.id}">
+                View Details
+            </button>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+// ----------------------------------------------
+// 5. تشغيل التطبيق
 // ----------------------------------------------
 loadDashboard();
