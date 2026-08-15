@@ -65,7 +65,7 @@ function renderUsers(users) {
     if (users.length === 0) {
         container.innerHTML = `
             <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #7f8c8d; font-size: 18px;">
-                🔍 No users found. Try a different search term.
+                 No users found. Try a different search term.
             </div>
         `;
         return;
