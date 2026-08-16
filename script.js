@@ -61,7 +61,8 @@ async function loadDashboard() {
 
 function renderUsers(users) {
     const container = document.getElementById('usersContainer');
-    container.innerHTML = ''
+    container.innerHTML = '';
+
     if (users.length === 0) {
         container.innerHTML = `
             <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #7f8c8d; font-size: 18px;">
@@ -75,21 +76,25 @@ function renderUsers(users) {
         const card = document.createElement('div');
         card.className = 'user-card';
         card.innerHTML = `
-            <h3>${user.name}</h3>
-            <div class="email">✉️ ${user.email}</div>
-            <div class="user-stats">
-                <div>
-                    <span>${user.postsCount}</span>
-                    <small>Posts</small>
-                </div>
-                <div>
-                    <span>${user.commentsCount}</span>
-                    <small>Comments</small>
-                </div>
+            <div class="card-header">
+                <h3>${user.name}</h3>
             </div>
-            <button class="details-btn" data-id="${user.id}">
-                View Details
-            </button>
+            <div class="card-body">
+                <div class="email">✉️ ${user.email}</div>
+                <div class="user-stats">
+                    <div>
+                        <span>${user.postsCount}</span>
+                        <small>Posts</small>
+                    </div>
+                    <div>
+                        <span>${user.commentsCount}</span>
+                        <small>Comments</small>
+                    </div>
+                </div>
+                <button class="details-btn" data-id="${user.id}">
+                    View Details
+                </button>
+            </div>
         `;
         container.appendChild(card);
     });
@@ -146,7 +151,7 @@ function showDetails(user) {
         <p><strong>Company:</strong> ${user.company ? user.company.name : 'N/A'}</p>
         <p><strong>Address:</strong> ${user.address ? user.address.city : 'N/A'}</p>
         <hr>
-        <p><strong Posts:</strong> ${user.postsCount}</p>
+        <p><strong> Posts:</strong> ${user.postsCount}</p>
         <p><strong> Comments:</strong> ${user.commentsCount}</p>
     `;
     document.getElementById('userDetailsModal').classList.remove('hidden');
