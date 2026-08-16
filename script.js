@@ -76,25 +76,21 @@ function renderUsers(users) {
         const card = document.createElement('div');
         card.className = 'user-card';
         card.innerHTML = `
-            <div class="card-header">
-                <h3>${user.name}</h3>
-            </div>
-            <div class="card-body">
-                <div class="email">✉️ ${user.email}</div>
-                <div class="user-stats">
-                    <div>
-                        <span>${user.postsCount}</span>
-                        <small>Posts</small>
-                    </div>
-                    <div>
-                        <span>${user.commentsCount}</span>
-                        <small>Comments</small>
-                    </div>
+            <h3>${user.name}</h3>
+            <div class="email">✉️ ${user.email}</div>
+            <div class="user-stats">
+                <div>
+                    <span>${user.postsCount}</span>
+                    <small>Posts</small>
                 </div>
-                <button class="details-btn" data-id="${user.id}">
-                    View Details
-                </button>
+                <div>
+                    <span>${user.commentsCount}</span>
+                    <small>Comments</small>
+                </div>
             </div>
+            <button class="details-btn" data-id="${user.id}">
+                View Details
+            </button>
         `;
         container.appendChild(card);
     });
